@@ -16,18 +16,35 @@ interface SimpleRowProps {
   label: string;
   value: React.ReactNode;
   valueSpan?: number;
+  showFiles: boolean;
 }
 
-function SimpleRow({ label, value }: SimpleRowProps) {
+function SimpleRow({ label, value, showFiles }: SimpleRowProps) {
   return (
     <div className="flex justify-between items-center py-6">
-      <span className="text-gray-600 font-medium text-4xl">{label}</span>
-      <span className="text-gray-900 text-4xl font-mono">{value}</span>
+      <span
+        className={`text-gray-600 font-medium ${showFiles ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'}`}
+      >
+        {label}
+      </span>
+      <span
+        className={`text-gray-900 font-mono ${showFiles ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'}`}
+      >
+        {value}
+      </span>
     </div>
   );
 }
 
-export function OrderDetail({ orderId, close }: { orderId: string; close: () => void }) {
+export function OrderDetail({
+  orderId,
+  showFiles = false,
+  close,
+}: {
+  orderId: string;
+  showFiles: boolean;
+  close: () => void;
+}) {
   const { network } = useUnisat();
   const [order, setOrder] = useState<InscribeOrderData>();
 
@@ -75,6 +92,53 @@ export function OrderDetail({ orderId, close }: { orderId: string; close: () => 
 
   if (!orderId) return null;
 
+  const renderBody = () => {
+    /* Modal Body */
+    return (
+      <div className="px-12 py-8 space-y-8">
+        <SimpleRow value={abbreviateHash(orderId)} label="OrderId" showFiles={showFiles} />
+        {!order ? (
+          <div className="animate-pulse space-y-8">
+            <div className="h-10 bg-gray-200 rounded w-3/4"></div>
+            <div className="h-10 bg-gray-200 rounded w-1/2"></div>
+            <div className="h-10 bg-gray-200 rounded w-2/3"></div>
+          </div>
+        ) : (
+          <>
+            <SimpleRow
+              value={new Date(order.createTime).toLocaleString()}
+              label="Created At"
+              showFiles={showFiles}
+            />
+            <SimpleRow value={order.status} label="Status" showFiles={showFiles} />
+            <SimpleRow
+              value={abbreviateHash(order.payAddress)}
+              label="Pay-To Address"
+              showFiles={showFiles}
+            />
+            <SimpleRow
+              value={abbreviateHash(order.receiveAddress)}
+              label="Receive Address"
+              showFiles={showFiles}
+            />
+            <SimpleRow value={order.amount} label="Amount" showFiles={showFiles} />
+            <OrderStatus order={order} />
+          </>
+        )}
+      </div>
+    );
+  };
+
+  const renderFiles = () => {
+    if (!order) return null;
+
+    return (
+      <div className="px-12 py-8 border-t border-gray-200">
+        <OrderFiles order={order} />
+      </div>
+    );
+  };
+
   return (
     <>
       {/* Overlay */}
@@ -82,15 +146,24 @@ export function OrderDetail({ orderId, close }: { orderId: string; close: () => 
 
       {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-        <div className="bg-white rounded-xl shadow-xl w-full max-w-5xl pointer-events-auto">
+        <div className="bg-white rounded-xl shadow-xl w-1/2 pointer-events-auto">
           {/* Modal Header */}
-          <div className="px-12 py-8 border-b border-gray-200 flex justify-between items-center">
-            <h2 className="text-6xl font-semibold text-gray-800">Order</h2>
+          <div className="px-12 py-8 border-b border-gray-200 flex justify-between items-center text-4xl lg:text-3xl">
+            <h2
+              className={`font-semibold text-gray-800 ${showFiles ? 'text-4xl lg:text-5xl' : 'text-5xl lg:text-6xl'}`}
+            >
+              Inscribe Job
+            </h2>
             <button
               onClick={close}
               className="text-gray-400 hover:text-gray-500 focus:outline-none"
             >
-              <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className={`${showFiles ? 'h-8 w-8 lg:h-10 lg:w-10' : 'h-10 w-10 lg:h-12 lg:w-12'}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -101,33 +174,14 @@ export function OrderDetail({ orderId, close }: { orderId: string; close: () => 
             </button>
           </div>
 
-          {/* Modal Body */}
-          <div className="px-12 py-8 space-y-8">
-            <SimpleRow value={abbreviateHash(orderId)} label="OrderId" />
-            {!order ? (
-              <div className="animate-pulse space-y-8">
-                <div className="h-10 bg-gray-200 rounded w-3/4"></div>
-                <div className="h-10 bg-gray-200 rounded w-1/2"></div>
-                <div className="h-10 bg-gray-200 rounded w-2/3"></div>
+          <div className={`flex ${showFiles ? 'flex-row' : 'flex-col'}`}>
+            <div className={`${showFiles ? 'w-2/3' : 'w-full'}`}>{renderBody()}</div>
+            {showFiles && (
+              <div className={`w-1/3 ${showFiles ? 'block' : 'hidden'} border-l border-gray-200`}>
+                {renderFiles()}
               </div>
-            ) : (
-              <>
-                <SimpleRow value={new Date(order.createTime).toLocaleString()} label="Created At" />
-                <SimpleRow value={order.status} label="Status" />
-                <SimpleRow value={abbreviateHash(order.payAddress)} label="Pay-To Address" />
-                <SimpleRow value={abbreviateHash(order.receiveAddress)} label="Receive Address" />
-                <SimpleRow value={order.amount} label="Amount" />
-                <OrderStatus order={order} />
-              </>
             )}
           </div>
-
-          {/* Modal Footer */}
-          {order && (
-            <div className="px-12 py-8 border-t border-gray-200">
-              <OrderFiles order={order} />
-            </div>
-          )}
         </div>
       </div>
     </>

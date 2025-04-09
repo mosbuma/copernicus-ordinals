@@ -53,7 +53,7 @@ export function OrderList({ newOrder$ }: OrderListProps) {
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       {/* Card Header */}
       <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-        <h2 className="text-lg font-semibold text-gray-800">Order List</h2>
+        <h2 className="text-lg font-semibold text-gray-800">Inscribe Job List</h2>
         <button
           onClick={fetchOrders}
           disabled={loading}
@@ -81,7 +81,7 @@ export function OrderList({ newOrder$ }: OrderListProps) {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                OrderId
+                JobId
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status

@@ -97,3 +97,26 @@ bun install
 ```
 
 The application will be available at `http://your-raspberry-pi-ip:3000`
+
+# launch script Copernicus II
+
+## coding before installation
+
+- set final destination address in .env file
+- add input box for sats/vbyte + link to mempool (open in new window).
+- add confirm inscribe job dialog that shows
+  - ordinal #1 (filled in)
+  - number of ordinals to create
+  - destination address (first, last bytes of hash)
+- wifi indicator
+- cleanup layout
+- shutdown button!
+- deploy to raspberry pi
+- auto startup at boot raspberry pi
+
+## pre-event actions
+
+- deploy last version to raspberry pi
+- setup raspberry pi to use gallery wifi
+- check destination address
+- run single launch in test mode

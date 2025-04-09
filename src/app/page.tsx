@@ -106,22 +106,6 @@ export default function Home() {
   }, [network]);
 
   const checkProcessValues = (): boolean => {
-    // const isMainnet = network === NetworkType.livenet;
-
-    // let tmpApiKey = undefined;
-    // if(isMainnet) {
-    //   tmpApiKey = process.env.NEXT_PUBLIC_UNISAT_API_KEY_MAINNET;
-    // } else {
-    //   tmpApiKey = process.env.NEXT_PUBLIC_UNISAT_API_KEY_TESTNET;
-    // }
-
-    // if(tmpApiKey) {
-    //   setApiKey(tmpApiKey);
-    // } else {
-    //   console.error("No API key provided");
-    //   return false;
-    // }
-
     let result = true;
     if (!process.env.NEXT_PUBLIC_ORDINALS_WALLET_ADDRESS) {
       console.error('No ordinals wallet address provided');
@@ -245,19 +229,23 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <Button
-            onClick={createOrder}
-            disabled={loading || !fileList.length}
-            className={`px-4 py-2 ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
-          >
-            {loading ? 'Creating Order...' : 'Create Order'}
-          </Button>
-          {orderId && (
-            <div className="text-green-500">Order created successfully! ID: {orderId}</div>
-          )}
+          <div className="w-1/3  border-2 border-red-500 rounded-xl p-4">
+            <div className="flex flex-row gap-4">
+              <Button
+                onClick={createOrder}
+                disabled={loading || !fileList.length}
+                className={`px-4 py-2 ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
+              >
+                {loading ? 'Creating Inscribe Job...' : 'Create Inscribe Job'}
+              </Button>
+              {orderId && (
+                <div className="text-green-500">Order created successfully! ID: {orderId}</div>
+              )}
+            </div>
+            <div className="flex flex-row gap-4">
+              <OrderList newOrder$={newOrder$} />
+            </div>
+          </div>
         </div>
         {orderId && (
           <OrderDetail
@@ -265,9 +253,9 @@ export default function Home() {
             close={() => {
               setOrderId('');
             }}
+            showFiles={true}
           />
         )}
-        <OrderList newOrder$={newOrder$} />
       </main>
     </UnisatProvider>
   );
