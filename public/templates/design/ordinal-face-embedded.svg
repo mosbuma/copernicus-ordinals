@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="750" viewBox="0 0 1500 1500"
+  style="background-color: white;">
+
+  <!-- Outer Ring with Animation -->
+  <circle cx="750" cy="750" r="700" fill="#07114C">
+    <animate attributeName="fill" values="#07114C;#2D52BA;#4E76DE;#07114C" dur="8s"
+      repeatCount="indefinite" keyTimes="0;0.33;0.66;1" calcMode="spline"
+      keySplines="0.25 0.1 0.25 1;0.25 0.1 0.25 1;0.25 0.1 0.25 1" />
+  </circle>
+
+  <!-- Middle Ring with Animation -->
+  <circle cx="750" cy="750" r="550" fill="#2D52BA">
+    <animate attributeName="fill" values="#2D52BA;#4E76DE;#07114C;#2D52BA" dur="8s"
+      repeatCount="indefinite" keyTimes="0;0.33;0.66;1" calcMode="spline"
+      keySplines="0.25 0.1 0.25 1;0.25 0.1 0.25 1;0.25 0.1 0.25 1" />
+  </circle>
+
+  <!-- Inner Ring with Animation -->
+  <circle cx="750" cy="750" r="400" fill="#4E76DE">
+    <animate attributeName="fill" values="#4E76DE;#07114C;#2D52BA;#4E76DE" dur="8s"
+      repeatCount="indefinite" keyTimes="0;0.33;0.66;1" calcMode="spline"
+      keySplines="0.25 0.1 0.25 1;0.25 0.1 0.25 1;0.25 0.1 0.25 1" />
+  </circle>
+
+  <g transform="translate(160, 175)">
+    <image
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAKABAMAAAD+49QQAAAAElBMVEVHcEyZmZnMzMxmZmYzMzMAAAA5bFhJAAAAAXRSTlMAQObYZgAAAAlwSFlzAAALEwAACxMBAJqcGAAAA8RJREFUeNrt3cFt20AQhlG1oBbcgltIC+6/lcB70MB/ZimKYoBk+d7JFika+nwarJa83QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/vSxSR8BBRRQQAQUUEABEfC8Yvdvn99+PYzXxtE6MH6qA+oJKKCAAgoooIACCiiggMeyVbHPh/tP4+RxytdDNBZQQAEFFFBAAQUUUEABBXzeLrJ9PBfTXlWsCwgooIACCiiggAIKKKCAAm62qyHsdeO9Xz+Ni65fUUABBRRQQAEFFFBAAQU82m66bBS/xmtx3rhKBFx6qBNQQAEFFFBAAQUUUEABD7SrDzxdGKqy9Wv3pbY4b/01JgEFFFBAAQUUUEABBRTwgNpP0xWLL7p1m/87Nd7VvyaOCiiggAIKKKCAAgoooIAXDRg7+2Ozfh2IhaZp1DCd55b5tpuAAgoooIACCiiggAIK+NZ6Un3C2ONfEeLk7l7I3VfjuoDjpxXmOQEFFFBAAQUUUEABBRTw6BQXe2Lum7phrRP/gS7guICAAgoooIACCiiggAIKePmAtdbT7fF/vd004AorSwIKKKCAAgoooIACCijgSetJETB0AffeFbkb5QYBBRRQQAEFFFBAAQUU8HoB48PVolJ8/pcCdstQcX+y+GsCCiiggAIKKKCAAgoo4OUDxpb/6Sg3XVmKU7rLCyiggAIKKKCAAgoooICXDzid5w7usdkOGFZYVBJQQAEFFFBAAQUUUEABjwaMitMbiMWgtyNgvFdAAQUUUEABBRRQQAEFFHD2+V860LXrHmbfLS8JKKCAAgoooIACCiiggJcKONyf67bcnBPwP78NsoACCiiggAIKKKCAAgp4+jy3Y53o7YDLPKReQAEFFFBAAQUUUEABBfz3AsYTWJZZTxJQQAEFFFBAAQUUUEABT68YiV6/5Vht3Cl1Q+Rl2gkooIACCiiggAIKKKCAf3Go2zHyTff4V7sqe1uPgAIKKKCAAgoooIACCnhmwO2Hz3cBY+0ozrstSkABBRRQQAEFFFBAAQV8q2LU2RFwR7t6m4ACCiiggAIKKKCAAgoo4M7Jbhqw289fq0j13tvVCCiggAIKKKCAAgoooIAnVYzZrXu8SmS7cDsBBRRQQAEFFFBAAQUU8KSUMcB1e/xlE1BAAQUUUEABBRQQAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9voNtwIo8ckfvUsAAAAASUVORK5CYII="
+      x="0" y="0" width="640" height="640" transform="scale(1.85)" />
+  </g>
+
+  <!-- Diagonal White Band with Animation -->
+  <rect x="0" y="725" width="1500" height="50" transform="rotate(-45 750 750)" fill="white">
+    <animateTransform attributeName="transform" type="rotate" from="-45 750 750" to="315 750 750"
+      dur="8s" repeatCount="indefinite" />
+  </rect>
+
+  <!-- Text in Top-Left -->
+  <text x="10" y="150" font-family="Times New Roman" font-style="italic" font-size="195"
+    fill="black">#number#</text>
+
+  <!-- Text in Bottom-Right -->
+  <text x="1480" y="1480" font-family="Times New Roman" font-style="italic" font-size="195"
+    fill="black" text-anchor="end">#n#</text>
+</svg>

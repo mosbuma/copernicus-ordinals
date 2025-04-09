@@ -5,12 +5,6 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
 bun dev
 ```
 
@@ -20,17 +14,86 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Installing Bun on Raspberry Pi
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Raspberry Pi running Raspberry Pi OS (64-bit recommended)
+- Basic knowledge of Linux commands
+- Internet connection
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Installation Steps
 
-## Deploy on Vercel
+1. Update your system packages:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+sudo apt update && sudo apt upgrade -y
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Install required dependencies:
+
+```bash
+sudo apt install -y curl unzip
+```
+
+3. Install Bun using the official installer:
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+4. Add Bun to your PATH by adding this line to your `~/.bashrc` or `~/.zshrc`:
+
+```bash
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+```
+
+5. Reload your shell configuration:
+
+```bash
+source ~/.bashrc  # or source ~/.zshrc if using zsh
+```
+
+6. Verify the installation:
+
+```bash
+bun --version
+```
+
+### Troubleshooting
+
+- If you encounter any issues with the installation, make sure you're using a 64-bit version of Raspberry Pi OS
+- For ARM32 systems, you might need to build Bun from source (not recommended for beginners)
+- Ensure you have enough disk space (at least 1GB free)
+
+## Deployment to Raspberry Pi
+
+### Prerequisites
+
+- Raspberry Pi with Bun installed (see above)
+- Node.js and npm installed on your development machine
+
+### Deployment Steps
+
+1. Build and prepare the deployment package:
+
+```bash
+./deploy.sh
+```
+
+2. Copy the `deploy` directory to your Raspberry Pi using scp or your preferred method:
+
+```bash
+scp -r deploy/ pi@your-raspberry-pi-ip:/path/to/destination
+```
+
+3. On the Raspberry Pi:
+
+```bash
+cd /path/to/deploy
+bun install
+./start.sh
+```
+
+The application will be available at `http://your-raspberry-pi-ip:3000`

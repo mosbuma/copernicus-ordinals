@@ -1,0 +1,66 @@
+project:
+  name: "Copernicus Ordinals"
+  description: "A Bitcoin Ordinals NFT creation platform running on a Raspberry Pi in a glass sphere"
+  phases:
+    - name: "Local Development"
+      description: "Development and testing on local laptop"
+      network: "testnet"
+    - name: "VPS Testing"
+      description: "Testing on Digital Ocean VPS"
+      network: "testnet"
+    - name: "Production"
+      description: "Deployment to Raspberry Pi in glass sphere"
+      network: "mainnet"
+
+architecture:
+  frontend:
+    framework: "Next.js"
+    router: "App Router"
+    language: "TypeScript"
+    ui: "React"
+    state_management: "React Context/Hooks"
+    styling: "Tailwind CSS"
+  backend:
+    runtime: "Node.js"
+    language: "TypeScript"
+    api: "Next.js API Routes"
+    storage: "Local JSON files"
+
+features:
+  sphere_interface:
+    - display_header: "Copernicus II" or "Copernicus II Testnet"
+    - display_sphere_image: true
+    - display_address: "Conditional on keypair generation"
+  trusted_account:
+    - create_keypair: "Backend generation of taproot keypair"
+    - reset_keypair: "Conditional on allowreset URL parameter"
+    - storage: "JSON files (separate for mainnet/testnet)"
+  ordinals:
+    - template_display: "To be implemented"
+    - unisat_integration: "Placeholder for existing code"
+  system:
+    - wifi_status: "Display network name and connection status"
+    - uptime: "Display in hh:mm format"
+    - shutdown: "System shutdown capability"
+    - unisat_api_keys: "Storage for mainnet/testnet keys"
+
+development_rules:
+  - no_axios: "Use native fetch or other alternatives"
+  - code_reuse: "Leverage existing wallet creation and unisat functions"
+  - security: "Private keys stored securely on SD card"
+  - responsive: "Design for various screen sizes"
+  - error_handling: "Comprehensive error states and user feedback"
+
+technical_constraints:
+  - platform: "Raspberry Pi"
+  - power: "Powerbank powered"
+  - connectivity: "Wireless internet"
+  - access: "Web interface via local WiFi"
+  - storage: "SD card for key storage"
+
+ux_guidelines:
+  - minimalistic: "Clean, focused interface"
+  - intuitive: "Clear navigation and actions"
+  - informative: "Clear status indicators"
+  - responsive: "Immediate feedback on actions"
+  - secure: "Clear security indicators and warnings" 

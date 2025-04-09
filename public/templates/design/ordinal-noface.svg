@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="750" viewBox="0 0 1500 1500"
+  style="background-color: white;">
+
+  <!-- Outer Ring with Animation -->
+  <circle cx="750" cy="750" r="700" fill="#07114C">
+    <animate attributeName="fill" values="#07114C;#2D52BA;#4E76DE;#07114C" dur="8s"
+      repeatCount="indefinite" keyTimes="0;0.33;0.66;1" calcMode="spline"
+      keySplines="0.25 0.1 0.25 1;0.25 0.1 0.25 1;0.25 0.1 0.25 1" />
+  </circle>
+
+  <!-- Middle Ring with Animation -->
+  <circle cx="750" cy="750" r="550" fill="#2D52BA">
+    <animate attributeName="fill" values="#2D52BA;#4E76DE;#07114C;#2D52BA" dur="8s"
+      repeatCount="indefinite" keyTimes="0;0.33;0.66;1" calcMode="spline"
+      keySplines="0.25 0.1 0.25 1;0.25 0.1 0.25 1;0.25 0.1 0.25 1" />
+  </circle>
+
+  <!-- Inner Ring with Animation -->
+  <circle cx="750" cy="750" r="400" fill="#4E76DE">
+    <animate attributeName="fill" values="#4E76DE;#07114C;#2D52BA;#4E76DE" dur="8s"
+      repeatCount="indefinite" keyTimes="0;0.33;0.66;1" calcMode="spline"
+      keySplines="0.25 0.1 0.25 1;0.25 0.1 0.25 1;0.25 0.1 0.25 1" />
+  </circle>
+
+  <!-- Center Circle -->
+  <circle cx="750" cy="750" r="250" fill="#FF91C5" />
+
+  <!-- Diagonal White Band with Animation -->
+  <rect x="0" y="725" width="1500" height="50" transform="rotate(-45 750 750)" fill="white">
+    <animateTransform attributeName="transform" type="rotate" from="-45 750 750" to="315 750 750"
+      dur="8s" repeatCount="indefinite" />
+  </rect>
+
+  <!-- Text in Top-Left -->
+  <text x="10" y="150" font-family="Times New Roman" font-style="italic" font-size="195"
+    fill="black">#number#</text>
+
+  <!-- Text in Bottom-Right -->
+  <text x="1480" y="1480" font-family="Times New Roman" font-style="italic" font-size="195"
+    fill="black" text-anchor="end">#n#</text>
+
+</svg>
