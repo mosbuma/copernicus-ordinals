@@ -82,7 +82,17 @@ export function ConfirmInscribe({
 
               {/* Fee Rate Selector */}
               <div className="flex flex-col space-y-2">
-                <label className="text-black font-medium text-xl">Fee Rate (sat/vB)</label>
+                <label className="text-black font-medium text-xl flex items-center gap-1">
+                  Fee Rate (sat/vB)
+                  <a
+                    href="https://mempool.space"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:text-blue-700 underline cursor-pointer inline-flex items-center ml-4"
+                  >
+                    Check Fee Rates @ mempool.space
+                  </a>
+                </label>
                 <div className="flex space-x-2">
                   {[1, 2, 3, 4, 5].map((rate) => (
                     <button

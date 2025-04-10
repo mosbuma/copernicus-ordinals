@@ -1,9 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
+import { abbreviateHash } from './OrderDetail';
 
 export interface SphereInterfaceProps {
   address: string | undefined;
+  recipientAddress: string | undefined;
   onCreateAddress: () => void;
   onResetAddress: () => void;
   showResetAddress: boolean;
@@ -12,6 +14,7 @@ export interface SphereInterfaceProps {
 }
 export default function SphereInterface({
   address,
+  recipientAddress,
   onCreateAddress,
   onResetAddress,
   onInscribe,
@@ -60,7 +63,7 @@ export default function SphereInterface({
           className="button mb-2 text-[1.5vw] bg-gray-800 hover:bg-gray-700 text-white border border-gray-500"
           onClick={onInscribe}
         >
-          Start Inscribe
+          Start Inscribe to {abbreviateHash(recipientAddress || '')}
         </Button>
       )}
     </div>

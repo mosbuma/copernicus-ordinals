@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import SphereInterface from '@/components/SphereInterface';
 import UnisatProvider from '@/provider/UniSatProvider';
 import { useUnisat } from '@/provider/UniSatProvider';
@@ -14,6 +14,7 @@ import { CreateOrderReq } from '@/utils/api-types';
 import { ConfirmInscribe } from '@/components/ConfirmInscribe';
 import { NetworkStatus } from '@/components/NetworkStatus';
 import { ShutdownButton } from '@/components/ShutdownButton';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 const getApiUrl = (thenetwork: NetworkType, apipath: string) => {
   const url = `/api/${thenetwork === NetworkType.livenet ? NetworkType.livenet : NetworkType.testnet}${apipath}`;
@@ -27,7 +28,7 @@ export type InscribeFileData = {
   type?: string;
 };
 
-export default function Home() {
+function HomeContent() {
   const [trustedAddress, setTrustedAddress] = useState<string | undefined>(undefined);
   const [fileList, setFileList] = useState<InscribeFileData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -49,6 +50,9 @@ export default function Home() {
 
   const { network } = useUnisat();
   const newOrder$ = useEventEmitter<void>();
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   // newOrder$.useSubscription(() => {
   //   console.log("New order event received");
@@ -195,6 +199,7 @@ export default function Home() {
         method: 'DELETE',
       });
       setTrustedAddress(undefined);
+      window.location.href = '/';
     } catch (error) {
       console.error('Error resetting address:', error);
     }
@@ -208,14 +213,15 @@ export default function Home() {
     );
   }
 
-  const showResetAddress = false && process.env.NODE_ENV !== 'production'; // only in development mode
+  const showResetAddress = searchParams?.get('RESET') !== null;
 
   return (
     <UnisatProvider>
       <main className="min-h-screen bg-gray-900 w-screen flex justify-center">
-        <div className="flex flex-col bg-black w-2/3 justify-center items-center">
+        <div className="flex flex-col bg-black w-2/3 h-full justify-start items-center">
           <SphereInterface
             address={trustedAddress}
+            recipientAddress={receiveAddress}
             onCreateAddress={createAddress}
             onResetAddress={resetAddress}
             onInscribe={confirmInscribe}
@@ -243,5 +249,13 @@ export default function Home() {
         <ShutdownButton />
       </main>
     </UnisatProvider>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
