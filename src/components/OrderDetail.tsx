@@ -7,7 +7,11 @@ import { OrderStatus } from './OrderStatus';
 import { OrderFiles } from './OrderFiles';
 import { useUnisat } from '@/provider/UniSatProvider';
 
-function abbreviateHash(hash: string, startLength: number = 6, endLength: number = 6): string {
+export function abbreviateHash(
+  hash: string,
+  startLength: number = 6,
+  endLength: number = 6
+): string {
   if (!hash || hash.length <= startLength + endLength) return hash;
   return `${hash.slice(0, startLength)}...${hash.slice(-endLength)}`;
 }
@@ -15,36 +19,18 @@ function abbreviateHash(hash: string, startLength: number = 6, endLength: number
 interface SimpleRowProps {
   label: string;
   value: React.ReactNode;
-  valueSpan?: number;
-  showFiles: boolean;
 }
 
-function SimpleRow({ label, value, showFiles }: SimpleRowProps) {
+function SimpleRow({ label, value }: SimpleRowProps) {
   return (
-    <div className="flex justify-between items-center py-6">
-      <span
-        className={`text-gray-600 font-medium ${showFiles ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'}`}
-      >
-        {label}
-      </span>
-      <span
-        className={`text-gray-900 font-mono ${showFiles ? 'text-2xl lg:text-3xl' : 'text-3xl lg:text-4xl'}`}
-      >
-        {value}
-      </span>
+    <div className="flex justify-between items-center">
+      <span className={`text-black font-medium text-xl`}>{label}</span>
+      <span className={`text-black font-mono text-xl`}>{value}</span>
     </div>
   );
 }
 
-export function OrderDetail({
-  orderId,
-  showFiles = false,
-  close,
-}: {
-  orderId: string;
-  showFiles: boolean;
-  close: () => void;
-}) {
+export function OrderDetail({ orderId, close }: { orderId: string; close: () => void }) {
   const { network } = useUnisat();
   const [order, setOrder] = useState<InscribeOrderData>();
 
@@ -92,52 +78,15 @@ export function OrderDetail({
 
   if (!orderId) return null;
 
-  const renderBody = () => {
-    /* Modal Body */
-    return (
-      <div className="px-12 py-8 space-y-8">
-        <SimpleRow value={abbreviateHash(orderId)} label="OrderId" showFiles={showFiles} />
-        {!order ? (
-          <div className="animate-pulse space-y-8">
-            <div className="h-10 bg-gray-200 rounded w-3/4"></div>
-            <div className="h-10 bg-gray-200 rounded w-1/2"></div>
-            <div className="h-10 bg-gray-200 rounded w-2/3"></div>
-          </div>
-        ) : (
-          <>
-            <SimpleRow
-              value={new Date(order.createTime).toLocaleString()}
-              label="Created At"
-              showFiles={showFiles}
-            />
-            <SimpleRow value={order.status} label="Status" showFiles={showFiles} />
-            <SimpleRow
-              value={abbreviateHash(order.payAddress)}
-              label="Pay-To Address"
-              showFiles={showFiles}
-            />
-            <SimpleRow
-              value={abbreviateHash(order.receiveAddress)}
-              label="Receive Address"
-              showFiles={showFiles}
-            />
-            <SimpleRow value={order.amount} label="Amount" showFiles={showFiles} />
-            <OrderStatus order={order} />
-          </>
-        )}
-      </div>
-    );
-  };
-
-  const renderFiles = () => {
-    if (!order) return null;
-
-    return (
-      <div className="px-12 py-8 border-t border-gray-200">
-        <OrderFiles order={order} />
-      </div>
-    );
-  };
+  const receiveAddress = (
+    <a
+      href={`https://ordinals.com/address/${order?.receiveAddress}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {abbreviateHash(order?.receiveAddress || '')}
+    </a>
+  );
 
   return (
     <>
@@ -148,22 +97,10 @@ export function OrderDetail({
       <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
         <div className="bg-white rounded-xl shadow-xl w-1/2 pointer-events-auto">
           {/* Modal Header */}
-          <div className="px-12 py-8 border-b border-gray-200 flex justify-between items-center text-4xl lg:text-3xl">
-            <h2
-              className={`font-semibold text-gray-800 ${showFiles ? 'text-4xl lg:text-5xl' : 'text-5xl lg:text-6xl'}`}
-            >
-              Inscribe Job
-            </h2>
-            <button
-              onClick={close}
-              className="text-gray-400 hover:text-gray-500 focus:outline-none"
-            >
-              <svg
-                className={`${showFiles ? 'h-8 w-8 lg:h-10 lg:w-10' : 'h-10 w-10 lg:h-12 lg:w-12'}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
+          <div className="px-6 py-4 flex justify-between items-center text-4xl">
+            <h2 className={`font-semibold text-black text-4xl`}>Inscribe Job</h2>
+            <button onClick={close} className="text-black hover:text-gray-300 focus:outline-none">
+              <svg className={`h-8 w-8`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -173,15 +110,31 @@ export function OrderDetail({
               </svg>
             </button>
           </div>
-
-          <div className={`flex ${showFiles ? 'flex-row' : 'flex-col'}`}>
-            <div className={`${showFiles ? 'w-2/3' : 'w-full'}`}>{renderBody()}</div>
-            {showFiles && (
-              <div className={`w-1/3 ${showFiles ? 'block' : 'hidden'} border-l border-gray-200`}>
-                {renderFiles()}
-              </div>
-            )}
+          <div className={`flex flex-col`}>
+            <div className="px-6 py-4 space-y-4">
+              <SimpleRow value={abbreviateHash(orderId)} label="OrderId" />
+              {!order ? (
+                <div className="animate-pulse space-y-2">
+                  <div className="h-10 bg-gray-200 rounded w-3/4"></div>
+                  <div className="h-10 bg-gray-200 rounded w-1/2"></div>
+                  <div className="h-10 bg-gray-200 rounded w-2/3"></div>
+                </div>
+              ) : (
+                <>
+                  <SimpleRow
+                    value={new Date(order.createTime).toLocaleString()}
+                    label="Created At"
+                  />
+                  <SimpleRow value={order.status} label="Status" />
+                  <SimpleRow value={abbreviateHash(order.payAddress)} label="Pay-To Address" />
+                  <SimpleRow value={receiveAddress} label="Receive Address" />
+                  <SimpleRow value={order.amount} label="Amount" />
+                  <OrderStatus order={order} />
+                </>
+              )}
+            </div>
           </div>
+          {order && <OrderFiles order={order} />}
         </div>
       </div>
     </>

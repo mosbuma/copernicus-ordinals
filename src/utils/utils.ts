@@ -39,9 +39,9 @@ export const isUtf8 = async (file: File) => {
     const reader = new FileReader();
     reader.readAsText(file);
 
-    reader.onloadend = (e: unknown): void => {
-      const content = e.target.result;
-      const encodingRight = content.indexOf('�') === -1;
+    reader.onloadend = (e: ProgressEvent<FileReader>): void => {
+      const content = e.target?.result as string;
+      const encodingRight = content.indexOf('') === -1;
 
       if (encodingRight) {
         resolve(encodingRight);

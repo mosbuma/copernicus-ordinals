@@ -9,7 +9,7 @@ class EventEmitter<T> extends EventTarget {
 }
 
 export function useEventEmitter<T>() {
-  const emitterRef = useRef<EventEmitter<T>>();
+  const emitterRef = useRef<EventEmitter<T> | null>(null);
 
   if (!emitterRef.current) {
     emitterRef.current = new EventEmitter<T>();

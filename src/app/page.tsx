@@ -6,13 +6,14 @@ import UnisatProvider from '@/provider/UniSatProvider';
 import { useUnisat } from '@/provider/UniSatProvider';
 import { useEventEmitter } from '@/hooks/useEventEmitter';
 import { NetworkType } from '@/types';
-// import { ApiKeyDisplay } from "@/components/ApiKeyDisplay";
 import { stringToBase64 } from '@/utils/utils';
 import { api } from '@/utils/api';
-import Image from 'next/image';
-import Button from '@/components/ui/Button';
 import { OrderList } from '@/components/OrderList';
 import { OrderDetail } from '@/components/OrderDetail';
+import { CreateOrderReq } from '@/utils/api-types';
+import { ConfirmInscribe } from '@/components/ConfirmInscribe';
+import { NetworkStatus } from '@/components/NetworkStatus';
+import { ShutdownButton } from '@/components/ShutdownButton';
 
 const getApiUrl = (thenetwork: NetworkType, apipath: string) => {
   const url = `/api/${thenetwork === NetworkType.livenet ? NetworkType.livenet : NetworkType.testnet}${apipath}`;
@@ -40,10 +41,11 @@ export default function Home() {
     parseInt(process.env.NEXT_PUBLIC_OUTPUT_VALUE || '546')
   );
   const [feeRate, setFeeRate] = useState<number>(parseInt(process.env.NEXT_PUBLIC_FEE_RATE || '1'));
-  const [devFee, setDevFee] = useState(parseInt(process.env.NEXT_PUBLIC_DEV_FEE || '0'));
-  const [devAddress, setDevAddress] = useState(process.env.NEXT_PUBLIC_DEV_ADDRESS || '');
 
   const [orderId, setOrderId] = useState<string | undefined>(undefined);
+  const [confirmInscribeData, setConfirmInscribeData] = useState<CreateOrderReq | undefined>(
+    undefined
+  );
 
   const { network } = useUnisat();
   const newOrder$ = useEventEmitter<void>();
@@ -80,9 +82,9 @@ export default function Home() {
           return;
         }
 
-        console.debug('*** fetch template image');
         const response = await fetch(process.env.NEXT_PUBLIC_TEMPLATEFILE || '');
         const template = await response.text();
+        console.debug('*** fetch template image', template);
 
         fillFileList(template);
       } catch (error) {
@@ -127,37 +129,39 @@ export default function Home() {
       result = false;
     }
 
-    if (!process.env.NEXT_PUBLIC_DEV_FEE) {
+    if (!process.env.NEXT_PUBLIC_COPERNICUS_FEE) {
       console.error('No dev fee provided');
-      result = false;
-    }
-
-    if (!process.env.NEXT_PUBLIC_DEV_ADDRESS) {
-      console.error('No dev address provided');
       result = false;
     }
 
     return result;
   };
 
-  async function createOrder() {
+  function confirmInscribe() {
+    if (!receiveAddress || !outputValue || !feeRate || !fileList.length || !trustedAddress) {
+      console.error('Missing required values');
+      return;
+    }
+
+    const orderData: CreateOrderReq = {
+      receiveAddress,
+      feeRate,
+      outputValue,
+      files: fileList.map((item) => ({ dataURL: item.dataURL, filename: item.filename })),
+      devAddress: trustedAddress,
+      devFee: 0,
+    };
+
+    setConfirmInscribeData(orderData);
+  }
+
+  async function createOrder(orderData: CreateOrderReq) {
     try {
-      if (!receiveAddress || !outputValue || !feeRate || !fileList.length) {
-        console.error('Missing required values');
-        return;
-      }
+      console.log('*** createOrder', orderData);
+
+      setConfirmInscribeData(undefined);
 
       setLoading(true);
-
-      const orderData = {
-        receiveAddress,
-        feeRate,
-        outputValue,
-        files: fileList.map((item) => ({ dataURL: item.dataURL, filename: item.filename })),
-        devAddress,
-        devFee,
-      };
-
       const { orderId } = await api.createOrder(network, orderData);
       setOrderId(orderId);
 
@@ -204,58 +208,39 @@ export default function Home() {
     );
   }
 
-  const currentFile = fileList.length > 0 ? fileList[0] : false;
+  const showResetAddress = false && process.env.NODE_ENV !== 'production'; // only in development mode
 
   return (
     <UnisatProvider>
-      <main className="min-h-screen p-8 bg-black">
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-row gap-4">
-            <div className="w-1/2">
-              <SphereInterface
-                address={trustedAddress}
-                onCreateAddress={createAddress}
-                onResetAddress={resetAddress}
-                isMainnet={network === NetworkType.livenet}
-              />
-            </div>
-            <div className="w-1/2 flex flex-col">
-              <div className="flex flex-grow items-center justify-center">
-                {currentFile && (
-                  <div className="relative">
-                    <Image src={currentFile.dataURL} alt="SVG" width={600} height={600} />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="w-1/3  border-2 border-red-500 rounded-xl p-4">
-            <div className="flex flex-row gap-4">
-              <Button
-                onClick={createOrder}
-                disabled={loading || !fileList.length}
-                className={`px-4 py-2 ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
-              >
-                {loading ? 'Creating Inscribe Job...' : 'Create Inscribe Job'}
-              </Button>
-              {orderId && (
-                <div className="text-green-500">Order created successfully! ID: {orderId}</div>
-              )}
-            </div>
-            <div className="flex flex-row gap-4">
-              <OrderList newOrder$={newOrder$} />
-            </div>
-          </div>
-        </div>
-        {orderId && (
-          <OrderDetail
-            orderId={orderId}
-            close={() => {
-              setOrderId('');
-            }}
-            showFiles={true}
+      <main className="min-h-screen bg-gray-900 w-screen flex justify-center">
+        <div className="flex flex-col bg-black w-2/3 justify-center items-center">
+          <SphereInterface
+            address={trustedAddress}
+            onCreateAddress={createAddress}
+            onResetAddress={resetAddress}
+            onInscribe={confirmInscribe}
+            isMainnet={network === NetworkType.livenet}
+            showResetAddress={showResetAddress}
           />
-        )}
+          {<OrderList newOrder$={newOrder$} setOrderId={setOrderId} />}
+          {orderId && (
+            <OrderDetail
+              orderId={orderId}
+              close={() => {
+                setOrderId('');
+              }}
+            />
+          )}
+          {confirmInscribeData && (
+            <ConfirmInscribe
+              settings={confirmInscribeData}
+              close={() => setConfirmInscribeData(undefined)}
+              onLaunchJob={createOrder}
+            />
+          )}
+        </div>
+        <NetworkStatus />
+        <ShutdownButton />
       </main>
     </UnisatProvider>
   );

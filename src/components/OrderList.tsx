@@ -1,23 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '../utils/api';
 import { InscribeOrderData } from '../utils/api-types';
-import { OrderDetail } from '../components/OrderDetail';
+import { abbreviateHash, OrderDetail } from '../components/OrderDetail';
 import { handleError } from '../utils/utils';
 import { useUnisat } from '../provider/UniSatProvider';
 import { useEventEmitter } from '@/hooks/useEventEmitter';
 
-const pageSize = 10;
+const pageSize = 0;
 
 interface OrderListProps {
   newOrder$: ReturnType<typeof useEventEmitter<void>>;
+  setOrderId: (orderId: string) => void;
 }
 
-export function OrderList({ newOrder$ }: OrderListProps) {
+export function OrderList({ newOrder$, setOrderId }: OrderListProps) {
   const { network } = useUnisat();
   const [list, setList] = useState<InscribeOrderData[] | undefined>();
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [orderId, setOrderId] = useState<string>('');
+  const page = 1;
   const [loading, setLoading] = useState(false);
 
   const fetchOrders = useCallback(async () => {
@@ -29,7 +28,7 @@ export function OrderList({ newOrder$ }: OrderListProps) {
         sort: 'desc',
       });
       setList(res.list);
-      setTotal(res.total);
+      // setTotal(res.total);
     } catch (error) {
       handleError(error);
     } finally {
@@ -47,17 +46,15 @@ export function OrderList({ newOrder$ }: OrderListProps) {
     fetchOrders();
   });
 
-  const totalPages = Math.ceil(total / pageSize);
-
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-gray-900 rounded-lg shadow-sm border border-gray-500 max-w-full">
       {/* Card Header */}
-      <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-        <h2 className="text-lg font-semibold text-gray-800">Inscribe Job List</h2>
+      <div className="px-6 py-4 border-b border-gray-500 flex justify-between items-center">
+        <h2 className="text-lg font-semibold text-white">Inscribe Job List</h2>
         <button
           onClick={fetchOrders}
           disabled={loading}
-          className={`p-2 rounded-full ${loading ? 'bg-gray-100' : 'hover:bg-gray-100'} transition-colors`}
+          className={`p-2 rounded-full ${loading ? 'bg-gray-800' : 'hover:bg-gray-800'} transition-colors text-white`}
         >
           <svg
             className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`}
@@ -77,24 +74,24 @@ export function OrderList({ newOrder$ }: OrderListProps) {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="min-w-full divide-y divide-gray-500">
+          <thead className="bg-gray-800">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 JobId
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 Create Time
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-gray-900 divide-y divide-gray-500">
             {loading ? (
               <tr>
-                <td colSpan={3} className="px-6 py-4 text-center text-gray-500">
+                <td colSpan={3} className="px-6 py-4 text-center text-gray-300">
                   Loading...
                 </td>
               </tr>
@@ -103,15 +100,15 @@ export function OrderList({ newOrder$ }: OrderListProps) {
                 <tr
                   key={record.orderId}
                   onClick={() => setOrderId(record.orderId)}
-                  className="hover:bg-gray-50 cursor-pointer transition-colors"
+                  className="hover:bg-gray-800 cursor-pointer transition-colors"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {record.orderId}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                    {abbreviateHash(record.orderId)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {record.status}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {new Date(record.createTime).toLocaleString()}
                   </td>
                 </tr>
@@ -120,32 +117,6 @@ export function OrderList({ newOrder$ }: OrderListProps) {
           </tbody>
         </table>
       </div>
-
-      {/* Pagination */}
-      <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className={`px-3 py-1 rounded ${page === 1 ? 'bg-gray-100 text-gray-400' : 'bg-white hover:bg-gray-50 text-gray-700'} border border-gray-300`}
-          >
-            Previous
-          </button>
-          <span className="text-sm text-gray-700">
-            Page {page} of {totalPages}
-          </span>
-          <button
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page >= totalPages}
-            className={`px-3 py-1 rounded ${page >= totalPages ? 'bg-gray-100 text-gray-400' : 'bg-white hover:bg-gray-50 text-gray-700'} border border-gray-300`}
-          >
-            Next
-          </button>
-        </div>
-      </div>
-
-      {/* Order Detail Modal */}
-      {orderId && <OrderDetail orderId={orderId} close={() => setOrderId('')} />}
     </div>
   );
 }

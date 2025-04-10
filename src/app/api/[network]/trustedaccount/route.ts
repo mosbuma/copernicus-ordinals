@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import AccountStorage, { Account } from '@/lib/accountstorage';
 import * as bitcoin from 'bitcoinjs-lib';
-import * as ecc from 'tiny-secp256k1';
+// import * as ecc from 'tiny-secp256k1';
+import * as secp from '@bitcoinerlab/secp256k1';
 import { ECPairFactory } from 'ecpair';
-import { getBitcoinNetwork } from '@/app/api/networkUtils';
+import { getBitcoinNetwork } from '@/app/lib/networkUtils';
 import { NetworkType } from '@/types';
 const accountlabel = 'trustedaccount';
 
@@ -32,8 +33,8 @@ export async function POST(
 
     console.debug('*** POST network', network);
 
-    const ECPair = ECPairFactory(ecc);
-    bitcoin.initEccLib(ecc);
+    const ECPair = ECPairFactory(secp);
+    bitcoin.initEccLib(secp);
     const bitcoinNetwork = getBitcoinNetwork(network);
     const keyPair = ECPair.makeRandom({ network: bitcoinNetwork });
     const privateKey = keyPair.privateKey;
@@ -41,7 +42,7 @@ export async function POST(
     //const privateKey = keyPair.toWIF();
 
     // Verify it's a valid Schnorr key (taproot-compatible)
-    if (!ecc.isPrivate(Buffer.from(privateKey!))) {
+    if (!secp.isPrivate(Buffer.from(privateKey!))) {
       throw new Error('Invalid private key for Schnorr signature');
     }
 

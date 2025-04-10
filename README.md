@@ -120,3 +120,20 @@ The application will be available at `http://your-raspberry-pi-ip:3000`
 - setup raspberry pi to use gallery wifi
 - check destination address
 - run single launch in test mode
+
+//
+
+please fill in this component the following fields:
+
+- input is a CreateOrderReq type record with settings
+- ordinal #1 (filled in, shown as image, found in files[0])
+- destination address for the ordinals (abbreviated hash or receiveaddress)
+- number of ordinals to create (count of files)
+- outputvalue
+- devaddress
+- devFee
+- fee setup: select with 1/2/3/4/5 sat/VB, default is current value, can adjust the value
+- button abort -> closes the dialog
+- button launch -> calls onLaunchJob handler with the adjusted data
+
+
