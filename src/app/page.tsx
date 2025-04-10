@@ -218,7 +218,7 @@ function HomeContent() {
   return (
     <UnisatProvider>
       <main className="min-h-screen bg-black w-screen flex justify-center">
-        <div className="flex flex-col bg-black w-2/3 h-full justify-start items-center">
+        <div className="flex flex-col bg-black w-full h-full justify-start items-center">
           <SphereInterface
             address={trustedAddress}
             recipientAddress={receiveAddress}
