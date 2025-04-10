@@ -35,8 +35,7 @@ export function OrderList({ newOrder$, setOrderId }: OrderListProps) {
       const filteredOrders = res.list.filter((order) => {
         const orderDate = new Date(order.createTime);
         return (
-          (orderDate >= horizon && ['pending', 'inscribing', 'minted'].includes(order.status)) ||
-          showAll
+          (orderDate >= horizon && ['pending', 'inscribing'].includes(order.status)) || showAll
         );
       });
 

@@ -217,7 +217,7 @@ function HomeContent() {
 
   return (
     <UnisatProvider>
-      <main className="min-h-screen bg-gray-900 w-screen flex justify-center">
+      <main className="min-h-screen bg-black w-screen flex justify-center">
         <div className="flex flex-col bg-black w-2/3 h-full justify-start items-center">
           <SphereInterface
             address={trustedAddress}
@@ -228,7 +228,7 @@ function HomeContent() {
             isMainnet={network === NetworkType.livenet}
             showResetAddress={showResetAddress}
           />
-          {<OrderList newOrder$={newOrder$} setOrderId={setOrderId} />}
+          {trustedAddress && <OrderList newOrder$={newOrder$} setOrderId={setOrderId} />}
           {orderId && (
             <OrderDetail
               orderId={orderId}

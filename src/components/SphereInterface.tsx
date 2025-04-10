@@ -22,7 +22,7 @@ export default function SphereInterface({
   showResetAddress,
 }: SphereInterfaceProps) {
   return (
-    <div className="flex flex-col items-center w-full h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-900">
+    <div className="flex flex-col items-center w-full h-full max-w-3/4 mx-auto px-4 sm:px-6 lg:px-8 bg-black">
       <h1 className="text-center text-[3vw] font-bold text-white mt-2 mb-4">
         Copernicus II {isMainnet ? '' : ' (TESTNET)'}
       </h1>
@@ -37,7 +37,7 @@ export default function SphereInterface({
         />
       </div>
       {address && (
-        <div className="text-center mb-4 text-[1.5vw] font-bold text-white break-all px-4">
+        <div className="text-center mb-4 text-[1.5vw] md:text-[1.25vw] font-bold text-white break-all px-4">
           {address}
         </div>
       )}
