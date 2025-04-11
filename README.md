@@ -1,139 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Copernicus Sphere II (moon)
 
-## Getting Started
+# DEPLOYED ON 10/4/2025
 
-First, run the development server:
-
-```bash
-bun dev
+```
+COPERNICUS II
+Created: 2025-04-10T16:29:59.660Z
+Address: bc1p8ql9nwwz9lsmjt0ews26nvyf2rxemdq00dl4gh47ml3jvxnuzz7qdfrq5v
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<div align="center">
+  <img src="public/copernicus-sphere-2.jpg" alt="Copernicus Sphere II" width="400">
+  <img src="public/copernicus-sphere-2-rpi.jpg" alt="Copernicus Sphere II Brains" width="400">
+</div>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Preparing the Raspberry Pi
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Launched on pi zero w2 using a 8GB sd card
+- 2600 mah powerbank (make sure it fits through the hole D ca 4cm, use a compact usb cable connector)
+- Ubuntu 22 LTS (Headless)
 
-## Installing Bun on Raspberry Pi
+  - set system name to copernicus
+  - enable ssh at install time
+  - install wifi connection at launch time
+  - create user copernicus
+  - after install, add ssh key for development laptop to ~/.ssh/authorized_keys or run ssh-copy-id copernicus@copernicus.local
+  - create a 2GB+ swap file otherwise the npm install will fail
 
-### Prerequisites
+- Internet connection via pre-configured local network
+  - preferably use a travel router like TP-LINK AC (https://www.tp-link.com/nl/home-networking/wifi-router/tl-wr902ac/) to develop and easy deploy on-site (no reconfiguration of the pi required onsite)
+- Install nvm and set to node V22
+- Install pm2 and setup a deamon that launches on start
 
-- Raspberry Pi running Raspberry Pi OS (64-bit recommended)
-- Basic knowledge of Linux commands
-- Internet connection
+  - sudo npm install -g pm2
+  - pm2 startup -> creates script, execute this script on the cls
+  - setup script adds the app to pm2
 
-### Installation Steps
-
-1. Update your system packages:
-
-```bash
-sudo apt update && sudo apt upgrade -y
-```
-
-2. Install required dependencies:
-
-```bash
-sudo apt install -y curl unzip
-```
-
-3. Install Bun using the official installer:
-
-```bash
-curl -fsSL https://bun.sh/install | bash
-```
-
-4. Add Bun to your PATH by adding this line to your `~/.bashrc` or `~/.zshrc`:
+- Install Bun using the official installer (dev laptop) to deploy:
 
 ```bash
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+curl -fsSL https://bun.sh/instally | bash
 ```
 
-5. Reload your shell configuration:
-
-```bash
-source ~/.bashrc  # or source ~/.zshrc if using zsh
-```
-
-6. Verify the installation:
-
-```bash
-bun --version
-```
-
-### Troubleshooting
-
-- If you encounter any issues with the installation, make sure you're using a 64-bit version of Raspberry Pi OS
-- For ARM32 systems, you might need to build Bun from source (not recommended for beginners)
-- Ensure you have enough disk space (at least 1GB free)
-
-## Deployment to Raspberry Pi
-
-### Prerequisites
-
-- Raspberry Pi with Bun installed (see above)
-- Node.js and npm installed on your development machine
-
-### Deployment Steps
-
-1. Build and prepare the deployment package:
-
-```bash
-./deploy.sh
-```
-
-2. Copy the `deploy` directory to your Raspberry Pi using scp or your preferred method:
-
-```bash
-scp -r deploy/ pi@your-raspberry-pi-ip:/path/to/destination
-```
-
-3. On the Raspberry Pi:
-
-```bash
-cd /path/to/deploy
-bun install
-./start.sh
-```
+- Deployment to Raspberry Pi
+  - current .env file is hardcoded into the app, make sure to setup for the pi before building the next app
+  - use the deploy.sh script via bun run deploy
 
 The application will be available at `http://your-raspberry-pi-ip:3000`
 
 # launch script Copernicus II
 
-## coding before installation
+## physibles
 
-- set final destination address in .env file
-- add input box for sats/vbyte + link to mempool (open in new window).
-- add confirm inscribe job dialog that shows
-  - ordinal #1 (filled in)
-  - number of ordinals to create
-  - destination address (first, last bytes of hash)
-- wifi indicator
-- cleanup layout
-- shutdown button!
-- deploy to raspberry pi
-- auto startup at boot raspberry pi
+- double sided strong tape
+- tie wraps
+- hdmi monitor (for rPi test) + hdmi mini->normal connector
+- keyboard + mini -> standard usb converter
+- large powerbank for pre-event testing
 
 ## pre-event actions
 
+- install unisat browser extension on the deployment laptop
+- add sufficient bitcoin to the unisat wallet for the deploy
 - deploy last version to raspberry pi
-- setup raspberry pi to use gallery wifi
+- setup travel router raspberry pi to use gallery wifi
 - check destination address
 - run single launch in test mode
+- check mempool status / current deploy vsat rates
 
-//
+## nice to have for future cases:
 
-please fill in this component the following fields:
-
-- input is a CreateOrderReq type record with settings
-- ordinal #1 (filled in, shown as image, found in files[0])
-- destination address for the ordinals (abbreviated hash or receiveaddress)
-- number of ordinals to create (count of files)
-- outputvalue
-- devaddress
-- devFee
-- fee setup: select with 1/2/3/4/5 sat/VB, default is current value, can adjust the value
-- button abort -> closes the dialog
-- button launch -> calls onLaunchJob handler with the adjusted data
-
-
+- dynamic switching between test and final deploy settings in the app so no deploy is necessary to switch
+- indication of the required amount of BTC for launch
+  - add to pre-launch script: run a full deploy order (with final ordinal data), note number of sats, for now there is no call that does this without launching the order on the uniSat api
+- compact cable (90 degree connector) for a better fit through the hole

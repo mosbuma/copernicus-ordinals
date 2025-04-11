@@ -58,3 +58,5 @@ bun.lockb
 
 # TypeScript
 *.tsbuildinfo
+
+dist.tar.gz
