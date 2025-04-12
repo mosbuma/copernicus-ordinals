@@ -1,0 +1,46 @@
+<svg width="220" height="220" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="220" height="220" fill="black" />
+
+    <!-- Number in the lower right corner -->
+    <text x="210" y="210" font-size="20" fill="white" opacity="0.3" text-anchor="end">#number#</text>
+
+    <!-- Sun -->
+    <circle cx="110" cy="110" r="20" fill="yellow" />
+
+    <!-- Orbit 1 -->
+    <circle cx="110" cy="110" r="40" fill="none" stroke="lightgray" stroke-width="0.5" />
+
+    <!-- Planet 1 -->
+    <circle cx="110" cy="70" r="5" fill="blue">
+        <animateTransform attributeName="transform" type="rotate" from="45 110 110" to="405 110 110"
+            dur="10s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Orbit 2 -->
+    <circle cx="110" cy="110" r="60" fill="none" stroke="lightgray" stroke-width="0.5" />
+
+    <!-- Planet 2 -->
+    <circle cx="110" cy="50" r="4" fill="red">
+        <animateTransform attributeName="transform" type="rotate" from="90 110 110" to="450 110 110"
+            dur="15s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Orbit 3 -->
+    <circle cx="110" cy="110" r="80" fill="none" stroke="lightgray" stroke-width="0.5" />
+
+    <!-- Planet 3 -->
+    <circle cx="110" cy="30" r="3" fill="green">
+        <animateTransform attributeName="transform" type="rotate" from="135 110 110"
+            to="495 110 110" dur="20s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Orbit 4 -->
+    <circle cx="110" cy="110" r="100" fill="none" stroke="lightgray" stroke-width="0.5" />
+
+    <!-- Planet 4 -->
+    <circle cx="110" cy="10" r="2.5" fill="orange">
+        <animateTransform attributeName="transform" type="rotate" from="180 110 110"
+            to="540 110 110" dur="25s" repeatCount="indefinite" />
+    </circle>
+</svg> 

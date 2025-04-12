@@ -48,6 +48,7 @@ function createApi(network: NetworkType) {
 
 export const get = async (network: NetworkType, url: string, params?: any) => {
   try {
+    console.log('**** get ****', url, params);
     const res = await createApi(network).get(url, { params });
     if (res.status !== 200) {
       throw new Error(res.statusText);

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+    <path d="M0 0h220v220H0z" />
+    <text x="210" y="210" fill="#fff" font-size="20" opacity=".3" text-anchor="end">#number#</text>
+    <circle cx="110" cy="110" r="20" fill="#ff0" />
+    <circle cx="110" cy="110" r="40" fill="none" stroke="#d3d3d3" stroke-width=".5" />
+    <circle cx="110" cy="70" r="5" fill="#00f">
+        <animateTransform attributeName="transform" dur="10s" from="45 110 110"
+            repeatCount="indefinite" to="405 110 110" type="rotate" />
+    </circle>
+    <circle cx="110" cy="110" r="60" fill="none" stroke="#d3d3d3" stroke-width=".5" />
+    <circle cx="110" cy="50" r="4" fill="red">
+        <animateTransform attributeName="transform" dur="15s" from="90 110 110"
+            repeatCount="indefinite" to="450 110 110" type="rotate" />
+    </circle>
+    <circle cx="110" cy="110" r="80" fill="none" stroke="#d3d3d3" stroke-width=".5" />
+    <circle cx="110" cy="30" r="3" fill="green">
+        <animateTransform attributeName="transform" dur="20s" from="135 110 110"
+            repeatCount="indefinite" to="495 110 110" type="rotate" />
+    </circle>
+    <circle cx="110" cy="110" r="100" fill="none" stroke="#d3d3d3" stroke-width=".5" />
+    <circle cx="110" cy="10" r="2.5" fill="orange">
+        <animateTransform attributeName="transform" dur="25s" from="180 110 110"
+            repeatCount="indefinite" to="540 110 110" type="rotate" />
+    </circle>
+</svg>

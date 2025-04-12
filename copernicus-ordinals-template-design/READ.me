@@ -1,0 +1,20 @@
+# steps in template design
+
+## test ordinals
+solar_system.svg -> svgo -> solar_system_compressed.svg
+
+## copernicus ordinal
+ordinal-face.svg 
+removed pink inner circle
+removed all white pixels
+manually extracted face from ordinal-face.svg to face.svg
+optimized with quant script in tools/ face.svg-> face-embedded-quant.svg
+manually replace face in ordinal-face.svg with face-embedded-quant.svg -> ordinal-face-embedded.svg
+optimized with svgo -> ordinal-face-embedded-compressed.svg
+
+## tools/links
+https://github.com/svg/svgo
+https://pngquant.org/ (via sudo apt-get install pngquant)
+
+## remarks
+leaving out viewbox messes up display on ordinals sites

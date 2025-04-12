@@ -5,6 +5,7 @@ import { abbreviateHash, OrderDetail } from '../components/OrderDetail';
 import { handleError } from '../utils/utils';
 import { useUnisat } from '../provider/UniSatProvider';
 import { useEventEmitter } from '@/hooks/useEventEmitter';
+import { InscriptionsModal } from './InscriptionsModal';
 
 const pageSize = 0;
 
@@ -19,6 +20,11 @@ export function OrderList({ newOrder$, setOrderId }: OrderListProps) {
   const page = 1;
   const [loading, setLoading] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [showInscriptions, setShowInscriptions] = useState(false);
+  const [receiveAddress, setReceiveAddress] = useState(
+    process.env.NEXT_PUBLIC_ORDINALS_WALLET_ADDRESS || ''
+  );
+
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
@@ -156,6 +162,23 @@ export function OrderList({ newOrder$, setOrderId }: OrderListProps) {
           </tbody>
         </table>
       </div>
+
+      {/* Add this after the table */}
+      <div className="px-6 py-4 border-t border-gray-500">
+        <button
+          onClick={() => setShowInscriptions(true)}
+          className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+        >
+          Inscriptions for {abbreviateHash(receiveAddress)}
+        </button>
+      </div>
+
+      {/* Add the modal */}
+      <InscriptionsModal
+        address={receiveAddress}
+        isOpen={showInscriptions}
+        onClose={() => setShowInscriptions(false)}
+      />
     </div>
   );
 }

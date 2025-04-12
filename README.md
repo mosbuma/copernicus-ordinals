@@ -8,6 +8,8 @@ Created: 2025-04-10T16:29:59.660Z
 Address: bc1p8ql9nwwz9lsmjt0ews26nvyf2rxemdq00dl4gh47ml3jvxnuzz7qdfrq5v
 ```
 
+Initial receipient: 
+
 <div align="center">
   <img src="public/copernicus-sphere-2.jpg" alt="Copernicus Sphere II" width="400">
   <img src="public/copernicus-sphere-2-rpi.jpg" alt="Copernicus Sphere II Brains" width="400">
@@ -73,3 +75,10 @@ The application will be available at `http://your-raspberry-pi-ip:3000`
 - indication of the required amount of BTC for launch
   - add to pre-launch script: run a full deploy order (with final ordinal data), note number of sats, for now there is no call that does this without launching the order on the uniSat api
 - compact cable (90 degree connector) for a better fit through the hole
+
+## ordinal optimization
+- see copernicus-ordinals-template-design folder
+
+## useful links
+
+- https://open-api-fractal.unisat.io/swagger.html

@@ -1,5 +1,12 @@
 import { NetworkType } from '@/types';
-import { CreateOrderReq, InscribeOrderData, ListOrderReq, ListOrderRes } from './api-types';
+import {
+  CreateOrderReq,
+  InscribeOrderData,
+  ListOrderReq,
+  ListOrderRes,
+  InscriptionsRequest,
+  InscriptionsResponse,
+} from './api-types';
 import { get, post } from './httpUtils';
 
 export const api = {
@@ -12,5 +19,13 @@ export const api = {
   },
   orderInfo(network: NetworkType, orderId: string): Promise<InscribeOrderData> {
     return get(network, `/v2/inscribe/order/${orderId}`);
+  },
+  getInscriptions(
+    network: NetworkType,
+    address: string,
+    req: InscriptionsRequest
+  ): Promise<InscriptionsResponse> {f
+
+    const url = ''
   },
 };
