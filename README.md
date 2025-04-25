@@ -80,4 +80,7 @@ The application will be available at `http://your-raspberry-pi-ip:3000`
 
 ## useful links
 
+- https://www.projectcopernicus.com/
+- https://gamma.io/bc1qd2jzjcnmk9sxk5lqe37pmqlp0l0upskh9cgh9p
 - https://open-api-fractal.unisat.io/swagger.html
+- https://opensea.io/collection/copernicus-v3
