@@ -1,5 +1,14 @@
 # Copernicus Sphere II (moon)
 
+<div align="center">
+  <img src="public/copernicus-sphere-2.jpg" alt="Copernicus Sphere II" width="400">
+</div>
+
+Read more about the project @ https://www.projectcopernicus.com/
+
+# Ordinals
+Get your own Copernicus ordinal @ https://opensea.io/collection/copernicus-v3
+
 # DEPLOYED ON 10/4/2025
 
 ```
@@ -9,7 +18,6 @@ Address: bc1p8ql9nwwz9lsmjt0ews26nvyf2rxemdq00dl4gh47ml3jvxnuzz7qdfrq5v
 ```
 
 <div align="center">
-  <img src="public/copernicus-sphere-2.jpg" alt="Copernicus Sphere II" width="400">
   <img src="public/copernicus-sphere-2-rpi.jpg" alt="Copernicus Sphere II Brains" width="400">
 </div>
 
