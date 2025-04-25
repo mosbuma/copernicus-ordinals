@@ -8,6 +8,8 @@ Read more about the project @ https://www.projectcopernicus.com/
 
 Get your own Copernicus ordinal @ https://gamma.io/bc1qd2jzjcnmk9sxk5lqe37pmqlp0l0upskh9cgh9p
 
+Orgininal artwork by Rutger van der Tas @ https://linktr.ee/rutgervandertas
+
 # DEPLOYED ON 10/4/2025
 
 ```
