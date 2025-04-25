@@ -1,12 +1,11 @@
 # Copernicus Sphere II (moon)
 
-<div align="center">
-  <img src="public/copernicus-sphere-2.jpg" alt="Copernicus Sphere II" width="400">
+<div align="left">
+  <img src="public/copernicus-sphere-2.jpg" alt="Copernicus Sphere II" width="250">
 </div>
 
 Read more about the project @ https://www.projectcopernicus.com/
 
-# Ordinals
 Get your own Copernicus ordinal @ https://opensea.io/collection/copernicus-v3
 
 # DEPLOYED ON 10/4/2025
@@ -17,8 +16,8 @@ Created: 2025-04-10T16:29:59.660Z
 Address: bc1p8ql9nwwz9lsmjt0ews26nvyf2rxemdq00dl4gh47ml3jvxnuzz7qdfrq5v
 ```
 
-<div align="center">
-  <img src="public/copernicus-sphere-2-rpi.jpg" alt="Copernicus Sphere II Brains" width="400">
+<div align="left">
+  <img src="public/copernicus-sphere-2-rpi.jpg" alt="Copernicus Sphere II Brains" width="250">
 </div>
 
 # Preparing the Raspberry Pi
