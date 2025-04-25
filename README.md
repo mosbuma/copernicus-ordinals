@@ -6,7 +6,7 @@
 
 Read more about the project @ https://www.projectcopernicus.com/
 
-Get your own Copernicus ordinal @ https://opensea.io/collection/copernicus-v3
+Get your own Copernicus ordinal @ https://gamma.io/bc1qd2jzjcnmk9sxk5lqe37pmqlp0l0upskh9cgh9p
 
 # DEPLOYED ON 10/4/2025
 
